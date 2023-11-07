@@ -5,9 +5,9 @@ const {createApp} = Vue
 createApp({
     data(){
         return {
-
-            email: []
-            
+            print: false,
+            email: [],
+            listLength: 10
         }
 
     },
@@ -16,19 +16,18 @@ createApp({
         
         getEmail(){
             axios.get('https://flynn.boolean.careers/exercises/api/random/mail').then((r) => {
-                this.email.push(r.data.response)
+                this.email.push(r.data.response);
+                if (this.email.length === this.listLength) {
+                    this.print = true;
+                }
             });
-        }
+        },
 
     },
     
     mounted(){
-        for (let i = 0; i < 10; i++){
+        for (let i = 0; i < this.listLength; i++){
             this.getEmail();
         }
-        
-        console.log(this.email);
-
-
     }
 }).mount('#app');
